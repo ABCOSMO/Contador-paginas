@@ -1,0 +1,20 @@
+{
+    "name": "abcosmo/contador-paginas",
+    "description": "Projeto que conta paginas pdf",
+    "version": "1.0.0",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Correios\\ContadorDePaginas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexandre Bruno Cosmo",
+            "email": "abcosmo@correios.com.br"
+        }
+    ],
+    "require": {
+        "smalot/pdfparser": "^2.12"
+    }
+}
