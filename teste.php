@@ -6,7 +6,7 @@ use Correios\ContadorDePaginas\Conectar\ConectarBD;
 
 $conexao = ConectarBD::getConexao();
 
-$cadastro = new MatrizRepository(
+$cadastro = new ContarPaginas(
 	$conexao,
 	32222
 );

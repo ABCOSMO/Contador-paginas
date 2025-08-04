@@ -32,6 +32,7 @@ trait ManipularArquivosTrait
 			echo "Extração dos arquivos falhou.";
 		}
 	}
+	
 	//Método para verificar se a pasta está vazia
 	public function pastaVazia($caminho): bool
 	{
