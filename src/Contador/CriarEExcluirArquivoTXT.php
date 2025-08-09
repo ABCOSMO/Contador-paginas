@@ -45,7 +45,9 @@ class CriarEExcluirArquivoTXT
         $dataAtual = date('d_m_Y'); 
 		$nomeArquivo = "Arquivos_Multiplex_{$dataAtual}.txt";
 		$excluirArquivo = $destinoDoArquivo . $nomeArquivo;
-		unlink($excluirArquivo);
+		if (file_exists($excluirArquivo)) {
+			unlink($excluirArquivo);
+		}
 	}
 
     //Método para excluir arquivo TXT	
@@ -54,8 +56,11 @@ class CriarEExcluirArquivoTXT
         $dataAtual = date('d_m_Y'); 
 		$nomeArquivo = "Arquivos_Insercao_{$dataAtual}.txt";
 		$excluirArquivo = $destinoDoArquivo . $nomeArquivo;
-		unlink($excluirArquivo);
+		if (file_exists($excluirArquivo)) {
+			unlink($excluirArquivo);
+		}
 	}
+
 
     //Método para criar arquivo LOG Multiplex
 	public function criarLogMultiplex (string $destinoDoArquivo): void
@@ -83,7 +88,9 @@ class CriarEExcluirArquivoTXT
         $dataAtual = date('d_m_Y'); 
 		$nomeArquivo = "Log_Multiplex_{$dataAtual}.txt";
 		$excluirArquivo = $destinoDoArquivo . $nomeArquivo;
-		unlink($excluirArquivo);
+		if (file_exists($excluirArquivo)) {
+			unlink($excluirArquivo);
+		}		
 	}
 
     //Método para excluir arquivo LOG Inserção TXT	
@@ -92,6 +99,30 @@ class CriarEExcluirArquivoTXT
         $dataAtual = date('d_m_Y'); 
 		$nomeArquivo = "Log_Insercao_{$dataAtual}.txt";
 		$excluirArquivo = $destinoDoArquivo . $nomeArquivo;
-		unlink($excluirArquivo);
+		if (file_exists($excluirArquivo)) {
+			unlink($excluirArquivo);
+		}		
+	}
+
+	//Método para excluir arquivo Excel Multiplex
+	public function excluirExcelMultiplex (string $destinoDoArquivo): void
+    {
+        $dataAtual = date('d_m_Y'); 
+		$nomeArquivo = "Arquivos_Multiplex_{$dataAtual}.xlsx";
+		$excluirArquivo = $destinoDoArquivo . $nomeArquivo;
+		if (file_exists($excluirArquivo)) {
+			unlink($excluirArquivo);
+		}		
+	}
+
+	//Método para excluir arquivo Excel Inserção
+	public function excluirExcelInsercao (string $destinoDoArquivo): void
+    {
+        $dataAtual = date('d_m_Y'); 
+		$nomeArquivo = "Arquivos_Insercao_{$dataAtual}.xlsx";
+		$excluirArquivo = $destinoDoArquivo . $nomeArquivo;
+		if (file_exists($excluirArquivo)) {
+			unlink($excluirArquivo);
+		}		
 	}
 }

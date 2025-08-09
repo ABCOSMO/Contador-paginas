@@ -52,10 +52,7 @@ abstract class ContarPaginas
     }
 
     public function verificarEExtrairArquivo(): bool
-    {
-        if ($this->pastaVazia()) {
-            return false;
-        } 
+    { 
         
         $this->extractZipFile($this->CaminhoENomeDoArquivo, $this->getCaminhoTemporario());
 

@@ -2,20 +2,23 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Correios\ContadorDePaginas\Contador\ContarPaginasMultiplex;
-use Correios\ContadorDePaginas\Contador\ValidaMultiplexDB;
+use Correios\ContadorDePaginas\Contador\ValidaMultiplexEInsercaoDB;
+use Correios\ContadorDePaginas\Contador\ProcessadorDaArquivosMultiplex;
+use Correios\ContadorDePaginas\Contador\CriarEExcluirArquivoTXT;
+use Correios\ContadorDePaginas\Contador\CriarArquivoExcel;
 use Correios\ContadorDePaginas\Contador\ContarObjetosTXT;
 use Correios\ContadorDePaginas\Contador\ContarObjetosXML;
 use Correios\ContadorDePaginas\Conectar\ConectarBD;
 
-$conexao = ConectarBD::getConexao();
-$validador = new ValidaMultiplexDB($conexao);
 $extensaoTXT = "txt";
-$extensaoArquivoTXT = new ContarObjetosTXT($extensaoTXT);
 $extensaoXML = "xml";
+$conexao = ConectarBD::getConexao();
+$validador = new ValidaMultiplexEInsercaoDB($conexao);
+$extensaoArquivoTXT = new ContarObjetosTXT($extensaoTXT);
 $extensaoArquivoXML = new ContarObjetosXML($extensaoXML);
 
 $caminhoDoArquivo = "../tmp/ZIP/";
-$destinoDoArquivo = "//Mbs10061036/e/PRODUCAO/CONTAGEM_MULTIPLEX/RESULTADO/";
+$destinoDoArquivo =  "../tmp/RESULTADO/";
 $caminhoTemporarioDoArquivo = "/../tmp/multiplex/";
 
 $arquivoMultiplex = new ContarPaginasMultiplex(
@@ -28,25 +31,18 @@ $arquivoMultiplex = new ContarPaginasMultiplex(
     $extensaoArquivoXML
 );
 
-$arquivos = scandir($caminhoDoArquivo);
+$processador = new ProcessadorDaArquivosMultiplex(
+    $arquivoMultiplex,
+    new CriarEExcluirArquivoTXT($destinoDoArquivo),
+    new CriarArquivoExcel($destinoDoArquivo),
+    $conexao
+);
 
-// Remove "." e ".." do array de arquivos
-$arquivos = array_diff($arquivos, array('.', '..'));
+$resultado = $processador->processarArquivos();
 
-if (empty($arquivos)) {
-    echo "Pasta Vazia." . "<br>";
-} else {
-    foreach ($arquivos as $arquivo) {
-        $caminhoENomeDoArquivo = $caminhoDoArquivo . $arquivo;
-        $arquivoMultiplex->setCaminhoENomeDoArquivo($caminhoENomeDoArquivo);
-        
-        if ($arquivoMultiplex->verificarEExtrairArquivo()) {
-            echo "Arquivo " . $arquivo . " encontrado e processado!" . "<br>";
-        } else {
-            echo "Não foi possível processar o arquivo " . $arquivo . "." . "<br>";
-        }
-        
-		$arquivoMultiplex->VerificarMatrizTXTNoBD($caminhoTemporarioDoArquivo . $arquivo);
-		$arquivoMultiplex->VerificarMatrizXMLNoBD($caminhoTemporarioDoArquivo . $arquivo);
+if(is_array($resultado) || is_object($resultado)) {
+   foreach ($resultado as $mensagem) {
+    echo $mensagem . "<br>";
     }
 }
+    
