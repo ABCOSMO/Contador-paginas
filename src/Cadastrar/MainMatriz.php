@@ -6,6 +6,7 @@ use PDO;
 abstract class MainMatriz
 {
 	protected $matriz;
+	protected $tipoServico;
 	protected $tipoMatriz;
 	protected $tipoArquivo;
 	protected $qtdPaginas;
@@ -26,6 +27,11 @@ abstract class MainMatriz
 	public function getMatriz(): int
 	{
 		return $this->matriz;
+	}
+
+	public function getTipoServico(): int
+	{
+		return $this->tipoServico;
 	}
 
 	public function getTipoMatriz(): int
@@ -55,17 +61,22 @@ abstract class MainMatriz
 		$this->matriz = $matriz;
 	}
 
-	public function setTipoMatriz(string $tipoMatriz): void
+	public function setTipoServico(int $tipoServico): void
+	{
+		$this->tipoServico = $tipoServico;
+	}
+
+	public function setTipoMatriz(int $tipoMatriz): void
 	{
 		$this->tipoMatriz = $tipoMatriz;
 	}
 
-	public function setTipoArquivo(string $tipoArquivo): void
+	public function setTipoArquivo(int $tipoArquivo): void
 	{
 		$this->tipoArquivo = $tipoArquivo;
 	}
 
-	public function setQtdPaginas(string $qtdPaginas): void
+	public function setQtdPaginas(int $qtdPaginas): void
 	{
 		$this->qtdPaginas = $qtdPaginas;
 	}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="h-100">
 
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
     <title>FAP-CDIP</title>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -57,20 +57,20 @@
         </div>
     </nav>
 
-    <section class="container my-5">
+    <section class="h-100 d-flex align-items-center">
+        <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card" style="width: 30rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Contar Páginas</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">Multiplex/Inserção</h6>
-                        <p class="card-text">Coloque os arquivos primeiro na pasta do Multiplex ou Inserção antes de
-                            clicar nos links.</p>
-                        <a href="#botaoMultiplex" class="card-link">Contar páginas Multiplex</a>
-                        <a href="#botaoInsercao" class="card-link">Contar páginas Inserção</a>
+                        <h5 class="card-title">Bem-Vindo ao contar de páginas</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Conta as págians dos arquivos Multiplex/Inserção</h6>
+                        <p class="card-text">Primeiro coloque os arquivos na pasta do ZIP do Multiplex ou Inserção antes de
+                            clicar nos links do menu.</p>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

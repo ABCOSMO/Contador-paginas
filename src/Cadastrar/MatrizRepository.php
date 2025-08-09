@@ -18,14 +18,15 @@ class MatrizRepository extends MainMatriz implements MatrizRepositoryInterface
             return false; // Se a matriz já existe, o método da trait retorna false e paramos aqui.
         }
 
-        $sql = "INSERT INTO matrizes (matriz, id_tipo_matriz, id_tipo_arquivo, id_qtd_paginas, id_complementar) 
-                VALUES (:matriz, :idTipoMatriz, :idTipoArquivo, :idQtdPaginas, :idComplementar)";
+        $sql = "INSERT INTO matrizes (matriz, id_servico, id_tipo_matriz, id_tipo_arquivo, id_qtd_paginas, id_complementar) 
+                VALUES (:matriz, :idTipoServico, :idTipoMatriz, :idTipoArquivo, :idQtdPaginas, :idComplementar)";
         
         try {
             
             $stmt = $this->conexaoDB->prepare($sql);
             $array = [
                 ':matriz' => $this->matriz,
+                ':idTipoServico' => $this->tipoServico,
                 ':idTipoMatriz' => $this->tipoMatriz,
                 ':idTipoArquivo' => $this->tipoArquivo,
                 ':idQtdPaginas' => $this->qtdPaginas,

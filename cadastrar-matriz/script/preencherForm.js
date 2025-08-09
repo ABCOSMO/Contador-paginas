@@ -16,12 +16,13 @@ export function preencherForm() {
 
 export function validarFormularioMatriz() {
     const inputMatriz = document.getElementById('matriz');
+    const inputServico = document.getElementById('tipoServico');
     const inputArquivo = document.getElementById('tipoArquivo');
     const inputTipoMatriz = document.getElementById('tipoMatriz');
     const inputComplementar = document.getElementById('complementar');
     const inputQtdPaginas = document.getElementById('qtdPaginas');
 
-    if (!inputMatriz.value || !inputArquivo.value || !inputTipoMatriz.value || !inputComplementar.value || !inputQtdPaginas.value) {
+    if (!inputMatriz.value || !inputServico.value || !inputArquivo.value || !inputTipoMatriz.value || !inputComplementar.value || !inputQtdPaginas.value) {
         alert('Por favor, preencha todos os campos obrigatórios.');
         return false;
     }

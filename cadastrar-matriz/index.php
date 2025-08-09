@@ -71,12 +71,12 @@
                     </div>
 
                     <div class="form-floating col-md-4">
-                        <select class="form-select" id="tipoArquivo" name="tipoArquivo" aria-label="Digitar o número da matriz">
-                            <option value="" selected>Selecionar Arquivo</option>
-                            <option value="1">TXT</option>
-                            <option value="2">XML</option>
+                        <select class="form-select" id="tipoServico" name="tipoServico" aria-label="Digitar o Serviço Contratado">
+                            <option value="" selected>Selecionar Serviço</option>
+                            <option value="1">Registrado</option>
+                            <option value="2">Registrado com AR Digital</option>
                         </select>
-                        <label for="tipoArquivo">Tipo de arquivo</label>
+                        <label for="tipoServico">Tipo de serviço</label>
                     </div>
 
                     <div class="form-floating col-md-4">
@@ -89,8 +89,18 @@
                     </div>
                 </div>
 
-                <div class="row g-3 my-3 justify-content-center">
-                    <div class="form-floating col-md-5">
+                <div class="row g-3 my-3">
+
+                    <div class="form-floating col-md-4">
+                        <select class="form-select" id="tipoArquivo" name="tipoArquivo" aria-label="Digitar o número da matriz">
+                            <option value="" selected>Selecionar Arquivo</option>
+                            <option value="1">TXT</option>
+                            <option value="2">XML</option>
+                        </select>
+                        <label for="tipoArquivo">Tipo de arquivo</label>
+                    </div>
+
+                    <div class="form-floating col-md-4">
                         <select class="form-select" id="complementar" name="complementar" aria-label="Selecionar Arquivo Complementar">
                             <option value="" selected>Selecionar Complementar</option>
                             <option value="1">Um arquivo complementar</option>
@@ -100,7 +110,7 @@
                         <label for="complementar">Arquivo complementar por objeto</label>
                     </div>
 
-                    <div class="form-floating col-md-5">
+                    <div class="form-floating col-md-4">
                         <select class="form-select" id="qtdPaginas" name="qtdPaginas" aria-label="Selecionar Quantidade de Páginas">
                             <option value="" selected>Selecionar Qtde Páginas</option>
                             <option value="1">Variável</option>
@@ -117,7 +127,7 @@
                    <div id="liveAlertPlaceholder"></div>
                    
 
-                    <button type="button" class="btn btn-secondary col-md-3 my-5" id="liveAlertBtn">Cadastrar Matriz</button>
+                    <button type="button" class="container btn btn-secondary col-md-3 my-5" id="liveAlertBtn">Cadastrar Matriz</button>
 
                 </div>
 

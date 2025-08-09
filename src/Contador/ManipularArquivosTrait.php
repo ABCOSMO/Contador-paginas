@@ -4,6 +4,13 @@ namespace Correios\ContadorDePaginas\Contador;
 
 trait ManipularArquivosTrait
 {
+	//Método para ler arquivo
+	public function lerArquivo (string $caminhoDoArquivo): array
+	{
+		$matriz = explode('_', $caminhoDoArquivo);
+		return $matriz;
+	}
+
     //Método para excluir arquivo TXT	
 	public function excluirTXT(string $caminhoDoArquivo, string $nomeArquivo): void
     {
