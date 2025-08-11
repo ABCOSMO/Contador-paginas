@@ -42,8 +42,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" id="botaoMultiplex" data-bs-toggle="modal" data-bs-target="#Multiplex"
-                            href="#">Contar páginas Multiplex</a>
+                        <a class="nav-link" id="botaoMultiplex" href="../contador-multiplex/">Contar páginas Multiplex</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="botaoInsercao" href="#">Contar páginas Inserção</a>

@@ -17,6 +17,12 @@ $validador = new ValidaMultiplexEInsercaoDB($conexao);
 $extensaoArquivoTXT = new ContarObjetosTXT($extensaoTXT);
 $extensaoArquivoXML = new ContarObjetosXML($extensaoXML);
 
+/*
+$conteudo = $extensaoTXT;
+
+file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
+*/
+
 $caminhoDoArquivo = "../tmp/ZIP/";
 $destinoDoArquivo =  "../tmp/RESULTADO/";
 $caminhoTemporarioDoArquivo = "/../tmp/multiplex/";
@@ -40,9 +46,29 @@ $processador = new ProcessadorDaArquivosMultiplex(
 
 $resultado = $processador->processarArquivos();
 
-if(is_array($resultado) || is_object($resultado)) {
-   foreach ($resultado as $mensagem) {
-    echo $mensagem . "<br>";
+// Adicione esta linha para ver o conteúdo do array retornado
+//file_put_contents(__DIR__ . '/debug.log', print_r($resultado, true));
+
+header('Content-Type: application/json');
+
+// Verifica se o resultado é um array
+if (is_array($resultado)) {
+    // Retorna a resposta no formato que o JavaScript espera
+    if (isset($resultado['status']) && $resultado['status'] === 'sucesso') {
+        echo json_encode([
+            'success' => true,
+            'message' => $resultado['mensagem']
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => $resultado['mensagem']
+        ]);
     }
+} else {
+    // Em caso de erro inesperado, retorna um JSON de erro
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erro inesperado na aplicação.'
+    ]);
 }
-    

@@ -16,11 +16,11 @@ trait ManipuladorDeArquivosTrait
 		return 0;
 	}
 
-	public function receberNumeroDaOS (string $caminhoDoArquivo): int
+	public function receberNumeroDoLote (string $caminhoDoArquivo): int
 	{
-		$numeroOS = explode('_', $caminhoDoArquivo);
-		if (isset($numeroOS[2])){
-			return (int) $numeroOS[2];
+		$numeroLote = explode('_', $caminhoDoArquivo);
+		if (isset($numeroLote[2])){
+			return (int) $numeroLote[2];
 		}
 
 		return 0;

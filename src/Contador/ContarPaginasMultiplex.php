@@ -5,12 +5,13 @@ use Correios\ContadorDePaginas\Contador\ContarPaginas;
 use Correios\ContadorDePaginas\Contador\ManipuladorDeArquivosTrait;
 use Correios\ContadorDePaginas\Contador\ManipuladorDeDiretoriosTrait;
 use Correios\ContadorDePaginas\Contador\ValidaMultiplexEInsercaoDB;
+use Correios\ContadorDePaginas\Contador\VerificadorDeMatrizInterface;
 use Correios\ContadorDePaginas\Contador\ContarObjetosTXT;
 use Correios\ContadorDePaginas\Contador\ContarObjetosXML;
 use Smalot\PdfParser\Parser;
 use PDO;
 
-class ContarPaginasMultiplex extends ContarPaginas
+class ContarPaginasMultiplex extends ContarPaginas implements VerificadorDeMatrizInterface
 {
     private ValidaMultiplexEInsercaoDB $mutiplexNoBD;
     private ContarObjetosTXT $contarTXT;
@@ -37,7 +38,7 @@ class ContarPaginasMultiplex extends ContarPaginas
     public function VerificarMatrizTXT (string $arquivoNaPastaTmp): void
     {        
         $matriz = $this->receberNumeroDaMatriz($arquivoNaPastaTmp); 
-        $numeroOS = $this->receberNumeroDaOS($arquivoNaPastaTmp); 
+        $numeroLote = $this->receberNumeroDoLote($arquivoNaPastaTmp); 
         $elementosDaMatriz = $this->mutiplexNoBD->verificaSeExisteMatrizMultiplexTXT($matriz);
         if(!empty($elementosDaMatriz)) { 
             foreach ($elementosDaMatriz as $elemento) {           
@@ -47,16 +48,16 @@ class ContarPaginasMultiplex extends ContarPaginas
             }
 
             $qtdObjetos = (int)$this->contarTXT->contarObjetosTXT($arquivoNaPastaTmp);
-            $qtdPaginasPDF = (int)$this->contarObjetosPDF($this->caminhoTemporario, $idComplementar, $idQtdPaginas, $numeroOS);
+            $qtdPaginasPDF = (int)$this->contarObjetosPDF($this->caminhoTemporario, $idComplementar, $idQtdPaginas, $numeroLote);
 
             if ($idComplementar == 3) {
                 $qtdPaginasPDF = ($qtdObjetos * $qtdPaginasPDF) / 2;
             }
            
-            echo " O arquivo tem {$qtdObjetos} objeto" . "<br>";
-            echo "Total de páginas em todos os PDFs: {$qtdPaginasPDF}" . "<br>";
+            //echo " O arquivo tem {$qtdObjetos} objeto" . "<br>";
+            //echo "Total de páginas em todos os PDFs: {$qtdPaginasPDF}" . "<br>";
             $idServico == 1 ? $totalDePaginas = $qtdObjetos + $qtdPaginasPDF : $totalDePaginas = ($qtdObjetos * 2) + $qtdPaginasPDF;
-            echo "Total de páginas para imprimir são: {$totalDePaginas}" . "<br><br>";
+            //echo "Total de páginas para imprimir são: {$totalDePaginas}" . "<br><br>";
             $this->escreverArquivoMultiplexTXT($arquivoNaPastaTmp, $this->getDestinoArquivo(), $qtdObjetos, $qtdPaginasPDF, $idServico);
             $matrizSemCadastro =  "S";
             $this->matrizSemCadastro($matrizSemCadastro);
@@ -69,7 +70,7 @@ class ContarPaginasMultiplex extends ContarPaginas
     public function VerificarMatrizXML (string $arquivoNaPastaTmp, string $arquivo): void
     {
         $matriz = $this->receberNumeroDaMatriz($arquivoNaPastaTmp); 
-        $numeroOS = $this->receberNumeroDaOS($arquivoNaPastaTmp);
+        $numeroOS = $this->receberNumeroDoLote($arquivoNaPastaTmp);
         $elementosDaMatriz = $this->mutiplexNoBD->verificaSeExisteMatrizMultiplexXML($matriz);
         if(!empty($elementosDaMatriz)) { 
             foreach ($elementosDaMatriz as $elemento) {           
@@ -85,14 +86,13 @@ class ContarPaginasMultiplex extends ContarPaginas
                 $qtdPaginasPDF = ($qtdObjetos * $qtdPaginasPDF) / 2;
             }
             
-            echo " O arquivo tem {$qtdObjetos} objetos" . "<br>";
-            echo "Total de páginas em todos os PDFs: {$qtdPaginasPDF}" . "<br>";
+            //echo " O arquivo tem {$qtdObjetos} objetos" . "<br>";
+            //echo "Total de páginas em todos os PDFs: {$qtdPaginasPDF}" . "<br>";
             $idServico == 1 ? $totalDePaginas = $qtdObjetos + $qtdPaginasPDF : $totalDePaginas = ($qtdObjetos * 2) + $qtdPaginasPDF;
-            echo "Total de páginas para imprimir são: {$totalDePaginas}" . "<br><br>";
+            //echo "Total de páginas para imprimir são: {$totalDePaginas}" . "<br><br>";
             $this->escreverArquivoMultiplexXML($arquivoNaPastaTmp, $this->getDestinoArquivo(), $qtdObjetos, $qtdPaginasPDF, $idServico);
             $matrizSemCadastroXML = "S";
         } else {
-            echo "Matriz não tem arquivo XML" . "<br><br>";
             $matrizSemCadastroXML = "N";
 
             if ($matrizSemCadastroXML == "N" && $this->retornarMatrizSemCadastroTXT() == "N") {

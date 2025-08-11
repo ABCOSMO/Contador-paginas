@@ -1,4 +1,0 @@
-Nome Arquivo	Qtde Objetos	Qtde Páginas
-e-Carta_12201_26198_OS_1523034.xml	48	349
-e-Carta_6541_183201_OS_1507487.txt	16	128
-e-Carta_6966_1403_OS_1522903.txt	1	6

@@ -24,7 +24,7 @@ class ProcessadorDaArquivosMultiplex
         $this->conexaoDB = $conexaoDB;
     }
 
-    public function processarArquivos(): void
+    public function processarArquivos(): array
     {
         $this->excluirArquivoTXT();
         $this->excluirArquivoExcel();
@@ -38,34 +38,43 @@ class ProcessadorDaArquivosMultiplex
         $arquivos = array_diff($arquivos, array('.', '..'));
 
         if (empty($arquivos)) {
-            echo "Pasta Vazia." . "<br>";
-            return;
+            return [
+                'status' => 'sucesso',
+                'mensagem' => 'A pasta está vazia.'
+            ];
         }
 
         
         foreach ($arquivos as $arquivo) {
             $caminhoENomeDoArquivo = $this->contarPaginasMultiplex->getCaminhoArquivo() . $arquivo;
             $this->contarPaginasMultiplex->setCaminhoENomeDoArquivo($caminhoENomeDoArquivo);
+            
+            /*
             echo "Processando o arquivo: " . $arquivo . "<br>";
-
             if ($this->contarPaginasMultiplex->verificarEExtrairArquivo()) {                              
                 echo "Arquivo " . $arquivo . " encontrado e processado!" . "<br>";
             } else {
                 echo "Não foi possível processar o arquivo " . $arquivo . "." . "<br>";
             }
+            */
 
+            $this->contarPaginasMultiplex->verificarEExtrairArquivo();
             $this->contarPaginasMultiplex->VerificarMatrizTXT($this->contarPaginasMultiplex->getCaminhoTemporario() . $arquivo);
             $this->contarPaginasMultiplex->VerificarMatrizXML($this->contarPaginasMultiplex->getCaminhoTemporario() . $arquivo, $arquivo);
 
-            echo "<br>Processamento do arquivo " . $arquivo . " concluído.<br><br>";
+            //echo "<br>Processamento do arquivo " . $arquivo . " concluído.<br><br>";
         }
         $arquivosExcel = scandir($this->contarPaginasMultiplex->getDestinoArquivo());
         $arquivosExcel = array_diff($arquivosExcel, array('.', '..'));
         foreach ($arquivosExcel as $arquivoExcel) {
             $caminhoArquivoExcel = $this->contarPaginasMultiplex->getDestinoArquivo() . $arquivoExcel;
             $this->criarArquivoExcel->criarExcelDeTXT($caminhoArquivoExcel);
-            break;
+            break; // Apenas processa o primeiro arquivo Excel encontrado
         }
+         return [
+                'status' => 'sucesso',
+                'mensagem' => 'Arquivos processados com sucesso.'
+            ];
     }
     
     public function excluirArquivoTXT(): void

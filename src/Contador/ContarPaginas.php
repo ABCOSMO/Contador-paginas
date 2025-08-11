@@ -60,7 +60,7 @@ abstract class ContarPaginas
         return true;
     }
 
-    public function contarObjetosPDF(string $caminhoTemporario, int $idComplementar, int $idQtdPaginas, int $numeroOS): int
+    public function contarObjetosPDF(string $caminhoTemporario, int $idComplementar, int $idQtdPaginas, int $numeroLote): int
     {
         if ($idComplementar < 3) {
             $arquivos = array_diff(scandir($caminhoTemporario), ['.', '..']);
@@ -70,10 +70,10 @@ abstract class ContarPaginas
             foreach ($arquivos as $arquivo) {
                 $caminhoCompleto = $caminhoTemporario . DIRECTORY_SEPARATOR . $arquivo;
 
-                $extrairOS = explode('_', $arquivo);
-                $novoNumeroOS = $extrairOS[2];
+                $extrairLote = explode('_', $arquivo);
+                $novoNumeroLote = $extrairLote[2];
 
-                if (is_numeric($novoNumeroOS) && (int)$novoNumeroOS === $numeroOS) {
+                if (is_numeric($novoNumeroLote) && (int)$novoNumeroLote === $numeroLote) {
 
                     // Verifica se é um arquivo PDF
                     if (strtolower(pathinfo($arquivo, PATHINFO_EXTENSION)) === 'pdf') {

@@ -79,6 +79,6 @@ class CriarArquivoExcel
         $escrever = new Xlsx($spreadsheet);
         $escrever->save($caminho . $arquivoExcel);
 
-        echo "Arquivo {$arquivoExcel} criado com sucesso!";
+        //echo "Arquivo {$arquivoExcel} criado com sucesso!";        
     }
 }

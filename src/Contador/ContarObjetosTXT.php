@@ -30,7 +30,7 @@ class ContarObjetosTXT
         $caminhoParaUsar = $this->normalizarCaminho($novoCaminhoArquivo);
 
         if(!file_exists($caminhoParaUsar)){
-            return 'Erro: Não foi possível encontrar o arquivo TXT ' . $caminhoParaUsar . '<br>';
+            throw new \Exception("Erro: Não foi possível encontrar o arquivo TXT " . $caminhoParaUsar);
         }
 
         try {
@@ -39,7 +39,7 @@ class ContarObjetosTXT
             $linhas = $file->key();
             return  $linhas;
         } catch (\Exception $e) {
-            return "Erro ao processar o arquivo: " . $e->getMessage() . "<br>";
+            throw new \Exception("Erro ao processar o arquivo: " . $e->getMessage(), 0, $e);
         }        
     }
 }

@@ -13,9 +13,9 @@ trait ManipuladorDeDiretoriosTrait
 		if ($openFile === TRUE) {
 			$zipFile->extractTo($destino);
 			$zipFile->close();
-			echo "Arquivos descompactado com sucesso." . "<br>";
+			//echo "Arquivos descompactado com sucesso." . "<br>";
 			} else {
-			echo "Descompactação do arquivo falhou." . "<br>";
+			//echo "Descompactação do arquivo falhou." . "<br>";
 		}
 	}
 	

@@ -3,7 +3,7 @@
 namespace Correios\ContadorDePaginas\Contador;
 use Correios\ContadorDePaginas\Contador\ManipuladorDeDiretoriosTrait;
 use SplFileObject;
-use Exception;
+use PDOException;
 
 class ContarObjetosXML
 {
@@ -30,18 +30,18 @@ class ContarObjetosXML
         $caminhoParaUsar = $this->normalizarCaminho($novoCaminhoArquivo);
 
          if(!file_exists($caminhoParaUsar)){
-            return 'Erro: Não foi possível encontrar o arquivo XML ' . $caminhoParaUsar . '<br>';
+            throw new \Exception0 ('Erro: Não foi possível encontrar o arquivo XML ' . $caminhoParaUsar);
         }
 
         try {
             $xml = simplexml_load_file($caminhoParaUsar);
             if ($xml === false) {
-                return 'Erro ao carregar o arquivo XML. Verifique se ele é válido e não está vazio.';
+                throw new \Exception ('Erro ao carregar o arquivo XML. Verifique se ele é válido e não está vazio.');
             }
             $objetosXML = count($xml->xpath('//codigoObjeto'));
             return $objetosXML;
         } catch (\Exception $e) {
-            return "Erro ao processar o arquivo: " . $e->getMessage() . "<br>";
+            throw new \Exception ("Erro ao processar o arquivo: " . $e->getMessage(), 0, $e);
         }    
     }
 }
