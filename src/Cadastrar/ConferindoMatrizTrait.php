@@ -20,7 +20,6 @@ trait ConferindoMatrizTrait
 
         		if ($stmt->fetch()) {
         			error_log("Matriz já cadastrada: " . $matriz, 0);
-        			$this->responderJSON(false, 'Matriz já cadastrada.');
             		return true;
         		}
 
@@ -28,14 +27,7 @@ trait ConferindoMatrizTrait
 
         } catch (PDOException $e) {
            	error_log("Erro ao conferir matriz: " . $e->getMessage(), 0);
-			responderJSON(false, 'Erro ao conferir matriz no banco de dados.', $e->getMessage());
            	return false;
         }
 	}
-
-	public function responderJSON($success, $message)
-    {
-        header('Content-Type: application/json');
-        echo json_encode(['success' => $success, 'message' => $message]);
-    }
 }

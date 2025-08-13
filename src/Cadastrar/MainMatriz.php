@@ -16,7 +16,7 @@ abstract class MainMatriz
 	public function __construct
 	(
 		PDO $conexaoDB,
-		int $matriz
+		?int $matriz
 	)
 	{
 		$this->conexaoDB = $conexaoDB;
@@ -56,7 +56,7 @@ abstract class MainMatriz
 
 
 	//Métodos Setters
-	public function setMatriz(int $matriz): void
+	public function setMatriz(?int $matriz): void
 	{
 		$this->matriz = $matriz;
 	}

@@ -1,7 +1,7 @@
 export async function processarMultiplex() {    
 
     try {
-        const endPointDoController = '/FAP/test/teste.php';
+        const endPointDoController = '/FAP/src/Controller/MatrizMultiplex.php';
         const response = await fetch(endPointDoController);
 
         if (!response.ok) {

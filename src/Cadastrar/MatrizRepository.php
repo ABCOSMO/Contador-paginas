@@ -5,6 +5,7 @@ use Correios\ContadorDePaginas\Cadastrar\MainMatriz;
 use Correios\ContadorDePaginas\Cadastrar\ConferindoMatrizTrait;
 use Correios\ContadorDePaginas\Cadastrar\MatrizRepositoryInterface;
 use PDOException;
+use PDO;
 /**
  * 
  */
@@ -12,10 +13,13 @@ class MatrizRepository extends MainMatriz implements MatrizRepositoryInterface
 {	
 	use ConferindoMatrizTrait;
 
-	public function salvar(): bool
+	public function salvar(): array
     {
     	if ($this->verificaSeExisteMatriz($this->matriz)) {
-            return false; // Se a matriz já existe, o método da trait retorna false e paramos aqui.
+            return [
+                'success' => false,
+                'message' => 'A matriz já existe no banco de dados.'
+            ];
         }
 
         $sql = "INSERT INTO matrizes (matriz, id_servico, id_tipo_matriz, id_tipo_arquivo, id_qtd_paginas, id_complementar) 
@@ -34,14 +38,18 @@ class MatrizRepository extends MainMatriz implements MatrizRepositoryInterface
             ];
 
             $stmt->execute($array);
-            $this->responderJSON(true, 'Matriz cadastrada com sucesso.');
-            return true;
+            return [
+                'success' => true, 
+                'message' => 'Matriz cadastrada com sucesso.'
+            ];
 
         } catch (PDOException $e) {
             // Em ambiente de produção, você deve logar este erro e não exibi-lo diretamente
             error_log("Erro ao salvar matriz: " . $e->getMessage(), 0);
-            responderJSON(false, 'Erro ao conferir matriz no banco de dados.', $e->getMessage());
-            return false;
+            return [
+                'success' => false, 
+                'message' => 'Erro ao conferir matriz no banco de dados. ' . $e->getMessage()
+            ];
         }
     }
 
@@ -51,23 +59,79 @@ class MatrizRepository extends MainMatriz implements MatrizRepositoryInterface
         return true;
     }
 
-    public function excluir(): bool
+    public function excluir(): array
     {
-        // Implementar lógica de exclusão de matriz
-        return true;
-    }
+        $sql = "DELETE FROM matrizes WHERE matriz = :matriz";
 
-    public function buscarPorId(int $id): ?array
-    {
-        $sql = "SELECT * FROM matrizes WHERE id = :id";
-        
         try {
             $stmt = $this->conexaoDB->prepare($sql);
-            $stmt->execute([':id' => $id]);
-            return $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+             $array = [
+                ':matriz' => $this->matriz
+             ];
+            $stmt->execute($array);
+             return [
+                'success' => true, 
+                'message' => 'Matriz excluída com sucesso.'
+            ];
+             
+        }
+        catch (PDOException $e) {
+            // Em ambiente de produção, você deve logar este erro e não exibi-lo diretamente
+            error_log("Erro ao excluir matriz: " . $e->getMessage(), 0);
+            return [
+                'success' => false, 
+                'message' => 'Erro ao excluir matriz no banco de dados. ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function buscarMatriz(): ?array
+    {
+        $sql = "SELECT 
+            matrizes.*,
+            tipo_servico.servico AS nome_servico,
+            tipo_matriz.tipo_matriz AS nome_tipo_matriz,
+            tipo_arquivo.tipo_arquivo AS nome_tipo_arquivo,
+            qtd_paginas.qtd_paginas AS numero_paginas,
+            arq_complementar.complementar AS arq_complementar
+        FROM 
+            matrizes 
+        INNER JOIN
+            tipo_servico ON tipo_servico.id_servico = matrizes.id_servico
+        INNER JOIN
+            tipo_matriz ON tipo_matriz.id_tipo_matriz = matrizes.id_tipo_matriz
+        INNER JOIN 
+            tipo_arquivo ON tipo_arquivo.id_tipo_arquivo = matrizes.id_tipo_arquivo
+        INNER JOIN
+            qtd_paginas ON qtd_paginas.id_qtd_paginas = matrizes.id_qtd_paginas
+        INNER JOIN 
+            arq_complementar ON arq_complementar.id_complementar = matrizes.id_complementar
+        ORDER BY matrizes.matriz ASC";
+        
+        try {
+            $stmt = $this->conexaoDB->prepare($sql);           
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $response = [];
+                    foreach($resultados as $value) {
+                        $response[] = [
+							'matriz' => $value['matriz'],
+                            'idMatriz' => $value['id_matriz'],
+							'idTipoServico' => $value['nome_servico'],
+							'idTipoMatriz' => $value['nome_tipo_matriz'],
+							'idTipoArquivo' => $value['nome_tipo_arquivo'],
+							'idQtdPaginas' => $value['numero_paginas'],
+							'idComplementar' => $value['arq_complementar']
+                        ];
+                    }
+            return $response;
         } catch (PDOException $e) {
-            error_log("Erro ao buscar matriz por ID: " . $e->getMessage(), 0);
-            return null;
+            error_log("Erro ao buscar matriz: " . $e->getMessage(), 0);
+            return [
+                'success' => false,
+                'message' => "Erro ao buscar matriz: " . $e->getMessage()
+            ];
         }
     }
 }

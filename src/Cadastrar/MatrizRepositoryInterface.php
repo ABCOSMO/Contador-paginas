@@ -9,11 +9,11 @@ interface MatrizRepositoryInterface
      *
      * @return bool Retorna true se a matriz foi salva com sucesso, false caso contrário.
      */
-    public function salvar(): bool;
+    public function salvar(): array;
 
     public function alterar(): bool;
     
-    public function excluir(): bool;
+    public function excluir(): array;
 
-    public function buscarPorId(int $id): ?array;
+    public function buscarMatriz(): ?array;
 }

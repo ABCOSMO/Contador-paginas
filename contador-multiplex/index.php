@@ -35,9 +35,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="../cadastrar-matriz/">Cadastrar Matriz</a></li>
-                            <li><a class="dropdown-item" href="#">Alterar Matriz</a></li>
-                            <li><a class="dropdown-item" href="#">Excluir Matriz</a></li>
-                            <li><a class="dropdown-item" href="#">Listar Matrizes</a></li>
+                            <li><a class="dropdown-item" href="../listar-matriz/">Listar Matrizes</a></li>
                         </ul>
                     </li>
 
@@ -46,10 +44,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="botaoInsercao" href="#">Contar páginas Inserção</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#BancoDoBrasil" href="#">
-                            Gerar arquivo BB</a>
                     </li>
                 </ul>
             </div>
@@ -100,26 +94,6 @@
         </div>
     </div>
     <!--Final do Modal Multiplex-->
-
-    <!--Modal BancoDoBrasil-->
-    <div class="modal fade" id="BancoDoBrasil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" tabindex="-1" aria-labelledby="..." aria-hidden="true">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Final do Modal BancoDoBrasil-->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">

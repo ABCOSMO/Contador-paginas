@@ -19,7 +19,6 @@ $extensaoArquivoXML = new ContarObjetosXML($extensaoXML);
 
 /*
 $conteudo = $extensaoTXT;
-
 file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
 */
 
