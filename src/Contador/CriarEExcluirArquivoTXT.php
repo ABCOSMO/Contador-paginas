@@ -33,7 +33,8 @@ class CriarEExcluirArquivoTXT
     {
 		$dataAtual = date('d_m_Y'); 
 		$nomeArquivo = "Arquivos_Insercao_{$dataAtual}.txt";
-		$escrita = @fopen("$nomeArquivo","a");
+		$salvarArquivo = $destinoDoArquivo . $nomeArquivo;
+		$escrita = @fopen("$salvarArquivo","a");
 		$cabecalho = "Nome Arquivo"."\t"."Qtde Objetos"."\t"."Qtde Páginas"."\r\n";
 		$escrever = fwrite($escrita,$cabecalho);
 		fclose($escrita);

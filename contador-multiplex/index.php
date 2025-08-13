@@ -43,7 +43,7 @@
                         <a class="nav-link" id="botaoMultiplex" href="./">Contar páginas Multiplex</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="botaoInsercao" href="#">Contar páginas Inserção</a>
+                        <a class="nav-link" id="botaoInsercao" href="../contador-insercao/">Contar páginas Inserção</a>
                     </li>
                 </ul>
             </div>

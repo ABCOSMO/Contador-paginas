@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Correios\ContadorDePaginas\Contador\ContarPaginasInsercao;
 use Correios\ContadorDePaginas\Contador\ValidaMultiplexEInsercaoDB;
@@ -27,9 +27,9 @@ $destinoDoArquivo = "//Mbs10061036/e/PRODUCAO/CONTAGEM_INSERCAO/RESULTADO/";
 $caminhoTemporarioDoArquivo = "/../tmp/insercao/";
 */
 
-$caminhoDoArquivo = "../tmp/ZIP/";
-$destinoDoArquivo =  "../tmp/RESULTADO/";
-$caminhoTemporarioDoArquivo = "/../tmp/insercao/";
+$caminhoDoArquivo = "../../tmp/ZIP/";
+$destinoDoArquivo =  "../../tmp/RESULTADO/";
+$caminhoTemporarioDoArquivo = "/../../tmp/insercao/";
 
 
 $arquivoInsercao = new ContarPaginasInsercao(
