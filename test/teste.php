@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Correios\ContadorDePaginas\Contador\ContarPaginasInsercao;
+use Correios\ContadorDePaginas\Contador\ContarPaginasMultiplex;
 use Correios\ContadorDePaginas\Contador\ValidaMultiplexEInsercaoDB;
-use Correios\ContadorDePaginas\Contador\ProcessadorDaArquivosInsercao;
+use Correios\ContadorDePaginas\Contador\ProcessadorDaArquivosMultiplex;
 use Correios\ContadorDePaginas\Contador\CriarEExcluirArquivoTXT;
 use Correios\ContadorDePaginas\Contador\CriarArquivoExcel;
 use Correios\ContadorDePaginas\Contador\ContarObjetosTXT;
@@ -22,17 +22,17 @@ $conteudo = $extensaoTXT;
 file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
 
 
-$caminhoDoArquivo = "//Mbs10061036/e/PRODUCAO/CONTAGEM_INSERCAO/ZIP/";
-$destinoDoArquivo = "//Mbs10061036/e/PRODUCAO/CONTAGEM_INSERCAO/RESULTADO/";
-$caminhoTemporarioDoArquivo = "/../tmp/insercao/";
+$caminhoDoArquivo = "//Mbs10061036/e/PRODUCAO/CONTAGEM_MULTIPLEX/ZIP/";
+$destinoDoArquivo = "//Mbs10061036/e/PRODUCAO/CONTAGEM_MULTIPLEX/RESULTADO/";
+$caminhoTemporarioDoArquivo = "/../tmp/multiplex/";
 */
 
 $caminhoDoArquivo = "../tmp/ZIP/";
 $destinoDoArquivo =  "../tmp/RESULTADO/";
-$caminhoTemporarioDoArquivo = "/../tmp/insercao/";
+$caminhoTemporarioDoArquivo = "/../tmp/multiplex/";
 
 
-$arquivoInsercao = new ContarPaginasInsercao(
+$arquivoMultiplex = new ContarPaginasMultiplex(
 	$caminhoDoArquivo,
 	$destinoDoArquivo,
 	$caminhoTemporarioDoArquivo,
@@ -42,8 +42,8 @@ $arquivoInsercao = new ContarPaginasInsercao(
     $extensaoArquivoXML
 );
 
-$processador = new ProcessadorDaArquivosInsercao(
-    $arquivoInsercao,
+$processador = new ProcessadorDaArquivosMultiplex(
+    $arquivoMultiplex,
     new CriarEExcluirArquivoTXT($destinoDoArquivo),
     new CriarArquivoExcel($destinoDoArquivo),
     $conexao

@@ -93,6 +93,25 @@ trait ManipuladorDeArquivosTrait
 	}
 
 	//Método para escrever no arquivo Inserção
+	public function escreverArquivoMultiplexXML (string $arquivoNaPastaTmp, string $destinoDoArquivo, int $qtdObjetos, int $qtdPaginasPDF, int $idServico): void
+	{
+		$info = pathinfo($arquivoNaPastaTmp);
+        $nomeArquivoSemExtensao = $info['filename'];
+        $novaExtensao = 'xml';
+        $novoNomeArquivo = $nomeArquivoSemExtensao . "." . $novaExtensao;
+		$dataAtual = date('d_m_Y'); 
+		$nomeArquivo = "Arquivos_Multiplex_{$dataAtual}.txt";
+		$escreverArquivo = $destinoDoArquivo . $nomeArquivo;
+
+		$idServico == 1 ? $totalDePaginas = $qtdObjetos + $qtdPaginasPDF : $totalDePaginas = ($qtdObjetos * 2) + $qtdPaginasPDF;
+		
+		$escrita = @fopen("$escreverArquivo","a");
+		$corpo = $novoNomeArquivo . "\t" . $qtdObjetos . "\t" . $totalDePaginas . "\r\n";
+		$escrever = fwrite($escrita,$corpo);
+		fclose($escrita);
+	}
+
+	//Método para escrever no arquivo Inserção
 	public function escreverArquivoInsercaoXML (string $arquivoNaPastaTmp, string $destinoDoArquivo, int $qtdObjetos, int $qtdPaginasPDF, int $idServico): void
 	{
 		$info = pathinfo($arquivoNaPastaTmp);
