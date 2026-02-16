@@ -1,5 +1,3 @@
-<?php $pastaCliente = 'barbeariabroklin'; ?>
-
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
 
@@ -27,7 +25,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/<?php $pastaCliente; ?>/">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
 
                     <li class="nav-item dropdown">
@@ -36,16 +34,16 @@
                             Menu Matrizes
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/<?php echo $pastaCliente; ?>/cadastrar-matriz">Cadastrar Matriz</a></li>
-                            <li><a class="dropdown-item" href="/<?php echo $pastaCliente; ?>/listar-matriz">Listar Matrizes</a></li>
+                            <li><a class="dropdown-item" href="/cadastrar-matriz">Cadastrar Matriz</a></li>
+                            <li><a class="dropdown-item" href="/listar-matriz">Listar Matrizes</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" id="botaoMultiplex" href="/<?php echo $pastaCliente; ?>/contador-multiplex">Contar páginas Multiplex</a>
+                        <a class="nav-link" id="botaoMultiplex" href="/contador-multiplex">Contar páginas Multiplex</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="botaoInsercao" href="./contador-insercao/">Contar páginas Inserção</a>
+                        <a class="nav-link" id="botaoInsercao" href="/contador-insercao/">Contar páginas Inserção</a>
                     </li>
                 </ul>
             </div>
