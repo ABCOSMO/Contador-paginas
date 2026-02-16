@@ -3,7 +3,7 @@ export async function enviarDadosMatriz() {
     const formData = new FormData(form);
 
     try {
-        const response = await fetch('/../../Controller/CadastrarMatriz.php', {
+        const response = await fetch('/cadastrar-nova-matriz', {
             method: 'POST',
             body: formData
         });
@@ -16,7 +16,7 @@ export async function enviarDadosMatriz() {
 
         if (data.success) {
             alert(data.message);
-            window.location.href = '../cadastrar-matriz/'; // Redireciona para a página de cadastro de matriz
+            window.location.href = '/cadastrar-matriz'; // Redireciona para a página de cadastro de matriz
         } else {
             alert('Erro ao cadastrar a matriz: ' + data.message);
         }

@@ -26,12 +26,6 @@ class ProcessadorDaArquivosInsercao
 
     public function processarArquivos(): array
     {
-        $this->excluirArquivoTXT();
-        $this->excluirArquivoExcel();
-        $this->excluirLogInsercao();
-        $this->criarArquivosTXT();
-        $this->criarLogInsercao();
-
         $arquivos = scandir($this->contarPaginasInsercao->getCaminhoArquivo());
 
         // Remove "." e ".." do array de arquivos
@@ -44,7 +38,12 @@ class ProcessadorDaArquivosInsercao
             ];
         }
 
-        
+        $this->excluirArquivoTXT();
+        $this->excluirArquivoExcel();
+        $this->excluirLogInsercao();
+        $this->criarArquivosTXT();
+        $this->criarLogInsercao();
+
         foreach ($arquivos as $arquivo) {
             $caminhoENomeDoArquivo = $this->contarPaginasInsercao->getCaminhoArquivo() . $arquivo;
             $this->contarPaginasInsercao->setCaminhoENomeDoArquivo($caminhoENomeDoArquivo);

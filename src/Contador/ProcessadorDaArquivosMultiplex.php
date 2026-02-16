@@ -26,12 +26,6 @@ class ProcessadorDaArquivosMultiplex
 
     public function processarArquivos(): array
     {
-        $this->excluirArquivoTXT();
-        $this->excluirArquivoExcel();
-        $this->excluirLogMultiplex();
-        $this->criarArquivosTXT();
-        $this->criarLogMultiplex();
-
         $arquivos = scandir($this->contarPaginasMultiplex->getCaminhoArquivo());
 
         // Remove "." e ".." do array de arquivos
@@ -44,6 +38,11 @@ class ProcessadorDaArquivosMultiplex
             ];
         }
 
+        $this->excluirArquivoTXT();
+        $this->excluirArquivoExcel();
+        $this->excluirLogMultiplex();
+        $this->criarArquivosTXT();
+        $this->criarLogMultiplex();
         
         foreach ($arquivos as $arquivo) {
             $caminhoENomeDoArquivo = $this->contarPaginasMultiplex->getCaminhoArquivo() . $arquivo;

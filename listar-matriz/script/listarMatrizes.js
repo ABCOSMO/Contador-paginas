@@ -9,7 +9,7 @@ export async function listarMatrizes() {
     corpoLista.innerHTML = ""; // Limpa a div para reconstruir
 
     try {
-        const response = await fetch('/FAP/src/Controller/ListarMatriz.php');
+        const response = await fetch('/../../src/Controller/ListarMatriz.php');
 
         if (!response.ok) {
             throw new Error('Erro na requisição: ' + response.status);
