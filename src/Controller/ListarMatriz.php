@@ -25,23 +25,28 @@ class ListarMatriz implements RequestHandlerInterface
 
         $resultados = $listarMatrizes->buscarMatriz();
 
-        header('Content-Type: application/json');
+        //header('Content-Type: application/json');
 
         if (is_array($resultados)) {
-            echo json_encode([
+            $mensagem = [
                 'success' => true,
                 'message' => 'Matrizes encontradas com sucesso.',
                 'data' => $resultados
-            ]);
+            ];
+            return new Response(200, [
+                'Content-Type' => 'application/json'
+                ], body: json_encode($mensagem));
         } else {
-            http_response_code(500);
-            echo json_encode([
+            $mensagem = [
                 'success' => false,
                 'message' => 'Erro ao buscar matrizes no banco de dados.'
-            ]);
-        }
-        
+            ];
+
+            return new Response(500, [
+                'Content-Type' => 'application/json'
+                ], body: json_encode($mensagem));
+        }        
         // Importante encerrar a execução para não vazar lixo na resposta JSON
-        exit;
+        //exit;
     }
 }

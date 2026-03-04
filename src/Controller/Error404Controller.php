@@ -13,6 +13,6 @@ class Error404Controller implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response(404, [], 'Página não encontrada');
+        return new Response(404, body: 'Página não encontrada');
     }
 }

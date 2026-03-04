@@ -33,7 +33,7 @@ use PDOException;
                         self::$conexao = new PDO($dsn, $user, $password);
                         self::$conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     } catch (PDOException $e) {
-                        erro_log('Erro de Conexão PDO: ' . $e->getMessage(), 0);
+                        error_log('Erro de Conexão PDO: ' . $e->getMessage(), 0);
                         die('Não foi possível conectar ao banco de dados. Por favor, tente novamente mais tarde.');
                     }
                 }

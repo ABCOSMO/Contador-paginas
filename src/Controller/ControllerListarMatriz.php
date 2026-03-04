@@ -17,6 +17,6 @@ class ControllerListarMatriz implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $html = $this->renderTemplate('listar-matriz');
-        return new Response(200, [], $html);
+        return new Response(200, body: $html);
     }
 }

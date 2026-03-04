@@ -17,6 +17,6 @@ class ControllerContadorMultiplex implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $html = $this->renderTemplate('contador-multiplex');
-        return new Response(200, [], $html);
+        return new Response(200, body: $html);
     }
 }

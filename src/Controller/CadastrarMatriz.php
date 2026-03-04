@@ -1,50 +1,72 @@
 <?php
-error_reporting(0);
-ob_start();
-require_once __DIR__ . '/../../vendor/autoload.php';
-    
+
+declare(strict_types=1);
+
+namespace Correios\ContadorDePaginas\Controller;
+
 use Correios\ContadorDePaginas\Cadastrar\MatrizRepository;
 use Correios\ContadorDePaginas\Conectar\ConectarBD;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-$conexao = ConectarBD::getConexao();
+ob_start();
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-$matriz = isset($_POST['matriz']) ? $_POST['matriz'] : null;
-$tipoServico = $_POST['tipoServico'];
-$tipoArquivo = $_POST['tipoArquivo'];
-$tipoMatriz = $_POST['tipoMatriz'];
-$complementar = $_POST['complementar'];
-$qtdPaginas = $_POST['qtdPaginas'];    
-/*
-$conteudo = $matriz . " " . $tipoServico . " " . $tipoArquivo . " " . $tipoMatriz . " " . $complementar . " " . $qtdPaginas;
+class CadastrarMatriz implements RequestHandlerInterface
+{
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
 
-file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
-*/
-        
-$cadastro = new MatrizRepository(
-	$conexao,
-	$matriz
-);		
+		$conexao = ConectarBD::getConexao();
 
-$cadastro->setTipoServico($tipoServico);
-$cadastro->setTipoMatriz($tipoMatriz);
-$cadastro->setQtdPaginas($qtdPaginas);
-$cadastro->setTipoArquivo($tipoArquivo);
-$cadastro->setIdComplementar($complementar);
+		$queryBody = $request->getParsedBody();
+		$matriz = isset($queryBody['matriz']) ? filter_var($queryBody['matriz'], FILTER_VALIDATE_INT) : null;
+		$tipoServico = filter_var($queryBody['tipoServico'], FILTER_VALIDATE_INT);
+		$tipoArquivo = filter_Var($queryBody['tipoArquivo'], FILTER_VALIDATE_INT);
+		$tipoMatriz = filter_var($queryBody['tipoMatriz'], FILTER_VALIDATE_INT);
+		$complementar = filter_var($queryBody['complementar'], FILTER_VALIDATE_INT);
+		$qtdPaginas = filter_var($queryBody['qtdPaginas'], FILTER_VALIDATE_INT);    
+		/*
+		$conteudo = $matriz . " " . $tipoServico . " " . $tipoArquivo . " " . $tipoMatriz . " " . $complementar . " " . $qtdPaginas;
 
-$salvarMatriz = $cadastro->salvar();
-//file_put_contents(__DIR__ . '/debug.log', print_r($salvarMatriz, true));
+		file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
+		*/
+				
+		$cadastro = new MatrizRepository(
+			$conexao,
+			$matriz
+		);		
 
-header('Content-Type: application/json');
+		$cadastro->setTipoServico($tipoServico);
+		$cadastro->setTipoMatriz($tipoMatriz);
+		$cadastro->setQtdPaginas($qtdPaginas);
+		$cadastro->setTipoArquivo($tipoArquivo);
+		$cadastro->setIdComplementar($complementar);
 
-if ($salvarMatriz['success']) {
-	
-	echo json_encode([
-		'success' => true,
-		'message' => $salvarMatriz['message']
-	]);
-} else {
-	echo json_encode ([
-		'success' => false,
-		'message' => $salvarMatriz['message']
-	]);
+		$salvarMatriz = $cadastro->salvar();
+		//file_put_contents(__DIR__ . '/debug.log', print_r($salvarMatriz, true));
+
+		header('Content-Type: application/json');
+
+		if ($salvarMatriz['success']) {
+			$mensagem = [
+				'success' => true,
+				'message' => $salvarMatriz['message']
+			];
+			return new Response(200, [
+				'Content-Type' => 'application/json'
+				], body: json_encode($mensagem));
+		} else {
+			$mensagem = [
+				'success' => false,
+				'message' => $salvarMatriz['message']
+			];
+			return new Response(500, [
+				'Content-Type' => 'application/json'
+				], body: json_encode($mensagem));
+		}
+		exit;
+    }
 }

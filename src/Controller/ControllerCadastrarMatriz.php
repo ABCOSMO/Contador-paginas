@@ -17,6 +17,6 @@ class ControllerCadastrarMatriz implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $html = $this->renderTemplate('cadastrar-matriz');
-        return new Response(302, [], $html);
+        return new Response(302, body: $html);
     }
 }

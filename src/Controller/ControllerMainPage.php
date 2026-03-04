@@ -17,7 +17,6 @@ class ControllerMainPage implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $html = $this->renderTemplate('mainPage');
-        return new Response(200, [], $html);
-        //include __DIR__ . '/../../views/mainPage.php';
+        return new Response(200, body: $html);
     }
 }
