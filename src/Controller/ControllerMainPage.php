@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Correios\ContadorDePaginas\Controller;
 
-class ControllerMainPage implements Controller
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Correios\ContadorDePaginas\Helper\HtmlRendererTrait;
+
+class ControllerMainPage implements RequestHandlerInterface
 {
-    public function processaRequisicao(): void
+    use HtmlRendererTrait;
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        include __DIR__ . '/../../views/mainPage.php';
+        $html = $this->renderTemplate('mainPage');
+        return new Response(200, [], $html);
+        //include __DIR__ . '/../../views/mainPage.php';
     }
 }

@@ -16,6 +16,10 @@
     ],
     "require": {
         "smalot/pdfparser": "^2.12",
-        "phpoffice/phpspreadsheet": "^4.5"
+        "phpoffice/phpspreadsheet": "^4.5",
+        "psr/http-message": "^2.0",
+        "nyholm/psr7": "^1.8",
+        "psr/http-server-handler": "^1.0",
+        "nyholm/psr7-server": "^1.1"
     }
 }

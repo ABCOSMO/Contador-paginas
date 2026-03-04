@@ -6,10 +6,14 @@ namespace Correios\ContadorDePaginas\Controller;
 
 use Correios\ContadorDePaginas\Cadastrar\MatrizRepository;
 use Correios\ContadorDePaginas\Conectar\ConectarBD;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class ListarMatriz implements Controller
+class ListarMatriz implements RequestHandlerInterface
 {
-    public function processaRequisicao(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $conexao = ConectarBD::getConexao();
         $matriz = null;

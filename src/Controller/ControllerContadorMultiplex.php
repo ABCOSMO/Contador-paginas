@@ -4,10 +4,19 @@ declare(strict_types=1);
 
 namespace Correios\ContadorDePaginas\Controller;
 
-class ControllerContadorMultiplex implements Controller
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Correios\ContadorDePaginas\Helper\HtmlRendererTrait;
+
+class ControllerContadorMultiplex implements RequestHandlerInterface
 {
-    public function processaRequisicao(): void
+    use HtmlRendererTrait;
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        include __DIR__ . '/../../views/contador-multiplex.php';
+        $html = $this->renderTemplate('contador-multiplex');
+        return new Response(200, [], $html);
     }
 }

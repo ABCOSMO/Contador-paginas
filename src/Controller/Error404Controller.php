@@ -8,15 +8,11 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Correios\ContadorDePaginas\Helper\HtmlRendererTrait;
 
-class ControllerCadastrarMatriz implements RequestHandlerInterface
+class Error404Controller implements RequestHandlerInterface
 {
-    use HtmlRendererTrait;
-
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $html = $this->renderTemplate('cadastrar-matriz');
-        return new Response(302, [], $html);
+        return new Response(404, [], 'Página não encontrada');
     }
 }

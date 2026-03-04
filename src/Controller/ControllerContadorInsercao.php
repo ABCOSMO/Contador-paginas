@@ -10,13 +10,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Correios\ContadorDePaginas\Helper\HtmlRendererTrait;
 
-class ControllerCadastrarMatriz implements RequestHandlerInterface
+class ControllerContadorInsercao implements RequestHandlerInterface
 {
     use HtmlRendererTrait;
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $html = $this->renderTemplate('cadastrar-matriz');
-        return new Response(302, [], $html);
+        $html = $this->renderTemplate('contador-insercao');
+        return new Response(200, [], $html);
     }
 }

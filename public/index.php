@@ -7,7 +7,8 @@ use Correios\ContadorDePaginas\Controller\{
     ControllerMainPage,
     ControllerCadastrarMatriz,
     CadastrarMatriz,
-    ControllerContadorMultiplex
+    ControllerContadorMultiplex,
+    Error404Controller
 };
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -23,9 +24,30 @@ $key = "$httpMethod|$pathInfo";
 if (array_key_exists($key, $routes)) {
     $controllerClass = $routes["$httpMethod|$pathInfo"];
     /** @var Controller $controller */
-    $controller = new $controllerClass();
-    $controller->processaRequisicao();
+    $controller = new $controllerClass();    
 } else {
-    echo "Página não encontrada: " . $key;
+    $controller = new Error404Controller();
 }
+
+$psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+
+$creator = new \Nyholm\Psr7Server\ServerRequestCreator(
+    $psr17Factory, // ServerRequestFactory
+    $psr17Factory, // UriFactory
+    $psr17Factory, // UploadedFileFactory
+    $psr17Factory  // StreamFactory
+);
+
+$request = $creator->fromGlobals();
+
+$response = $controller->handle($request);
+
+http_response_code($response->getStatusCode());
+foreach ($response->getHeaders() as $name => $values) {
+    foreach ($values as $value) {
+        header(sprintf('%s: %s', $name, $value), false);
+    }
+}
+
+echo $response->getBody();
 ?>
