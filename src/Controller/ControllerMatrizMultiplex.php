@@ -16,9 +16,14 @@ use Correios\ContadorDePaginas\Contador\{
 
 use Correios\ContadorDePaginas\Conectar\ConectarBD;
 
-class ControllerMatrizMultiplex implements Controller
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class ControllerMatrizMultiplex implements RequestHandlerInterface
 {
-    public function processaRequisicao(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $extensaoTXT = "txt";
         $extensaoXML = "xml";
@@ -57,30 +62,36 @@ class ControllerMatrizMultiplex implements Controller
         // Adicione esta linha para ver o conteúdo do array retornado
         //file_put_contents(__DIR__ . '/debug.log', print_r($resultado, true));
 
-        header('Content-Type: application/json');
-
         // Verifica se o resultado é um array
         if (is_array($resultado)) {
             // Retorna a resposta no formato que o JavaScript espera
             if (isset($resultado['status']) && $resultado['status'] === 'sucesso') {
-                echo json_encode([
+                $mensagem = [
                     'success' => true,
                     'message' => $resultado['mensagem']
-                ]);
+                ];
+                return new Response(200, [
+                    'Content-Type' => 'application/json'
+                    ], body: json_encode($mensagem));
             } else {
-                echo json_encode([
+                $mensagem = [
                     'success' => false,
                     'message' => $resultado['mensagem']
-                ]);
+                ];
+                return new Response(500, [
+                    'Content-Type'=> 'application/json'
+                    ], body: json_encode($mensagem));
             }
         } else {
             // Em caso de erro inesperado, retorna um JSON de erro
-            echo json_encode([
+            $mensagem = [
                 'success' => false,
                 'message' => 'Erro inesperado na aplicação.'
-            ]);
+            ];
+            return new Response(500, [
+                'Content-Type' => 'application/json'
+                ], body: json_encode($mensagem));
         }
-
         exit();
     }
 
