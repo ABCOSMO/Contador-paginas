@@ -11,9 +11,14 @@ use Correios\ContadorDePaginas\Controller\{
     Error404Controller
 };
 
+use Psr\Container\ContainerInterface;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $routes = require_once __DIR__ . '/../config/routes.php';
+/** @var \Psr\Container\ContainerInterface $diContainer */
+$diContainer = require_once __DIR__ . '/../config/dependencies.php';
+
 
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 // Substitua a lógica do $pathInfo por esta:
@@ -24,7 +29,7 @@ $key = "$httpMethod|$pathInfo";
 if (array_key_exists($key, $routes)) {
     $controllerClass = $routes["$httpMethod|$pathInfo"];
     /** @var Controller $controller */
-    $controller = new $controllerClass();    
+    $controller = $diContainer->get($controllerClass);  //new $controllerClass();    
 } else {
     $controller = new Error404Controller();
 }

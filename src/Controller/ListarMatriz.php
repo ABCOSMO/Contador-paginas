@@ -13,17 +13,17 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ListarMatriz implements RequestHandlerInterface
 {
+    private MatrizRepository $listarMatrizes;
+
+    public function __construct (MatrizRepository $listarMatrizes)
+    {
+        $this->listarMatrizes = $listarMatrizes;
+    }
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $conexao = ConectarBD::getConexao();
-        $matriz = null;
 
-        $listarMatrizes = new MatrizRepository(
-            $conexao,
-            $matriz
-        );
-
-        $resultados = $listarMatrizes->buscarMatriz();
+        $resultados = $this->listarMatrizes->buscarMatriz();
 
         //header('Content-Type: application/json');
 

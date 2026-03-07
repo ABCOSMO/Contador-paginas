@@ -16,11 +16,16 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 class CadastrarMatriz implements RequestHandlerInterface
 {
+	private MatrizRepository $cadastrarMatriz;
+
+		public function __construct (MatrizRepository $cadastrarMatriz)
+		{
+			$this->cadastrarMatriz = $cadastrarMatriz;
+		}
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-
-		$conexao = ConectarBD::getConexao();
-
+		
 		$queryBody = $request->getParsedBody();
 		$matriz = isset($queryBody['matriz']) ? filter_var($queryBody['matriz'], FILTER_VALIDATE_INT) : null;
 		$tipoServico = filter_var($queryBody['tipoServico'], FILTER_VALIDATE_INT);
@@ -33,40 +38,24 @@ class CadastrarMatriz implements RequestHandlerInterface
 
 		file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
 		*/
-				
-		$cadastro = new MatrizRepository(
-			$conexao,
-			$matriz
-		);		
 
-		$cadastro->setTipoServico($tipoServico);
-		$cadastro->setTipoMatriz($tipoMatriz);
-		$cadastro->setQtdPaginas($qtdPaginas);
-		$cadastro->setTipoArquivo($tipoArquivo);
-		$cadastro->setIdComplementar($complementar);
+		$this->cadastrarMatriz->setMatriz((int)$matriz);
+		$this->cadastrarMatriz->setTipoServico((int)$tipoServico);
+		$this->cadastrarMatriz->setTipoMatriz((int)$tipoMatriz);
+		$this->cadastrarMatriz->setQtdPaginas((int)$qtdPaginas);
+		$this->cadastrarMatriz->setTipoArquivo((int)$tipoArquivo);
+		$this->cadastrarMatriz->setIdComplementar((int)$complementar);
 
-		$salvarMatriz = $cadastro->salvar();
+		$salvarMatriz = $this->cadastrarMatriz->salvar();
 		//file_put_contents(__DIR__ . '/debug.log', print_r($salvarMatriz, true));
 
-		header('Content-Type: application/json');
+		$statusCode = $salvarMatriz['success'] ? 200 : 500;
 
-		if ($salvarMatriz['success']) {
-			$mensagem = [
-				'success' => true,
-				'message' => $salvarMatriz['message']
-			];
-			return new Response(200, [
-				'Content-Type' => 'application/json'
-				], body: json_encode($mensagem));
-		} else {
-			$mensagem = [
-				'success' => false,
-				'message' => $salvarMatriz['message']
-			];
-			return new Response(500, [
-				'Content-Type' => 'application/json'
-				], body: json_encode($mensagem));
-		}
-		exit;
+		return new Response($statusCode, [
+			'Content-Type' => 'application/json'
+		], body: json_encode([
+			'success' => $salvarMatriz['success'],
+			'message' => $salvarMatriz['message']
+		]));			
     }
 }

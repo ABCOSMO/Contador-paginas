@@ -16,7 +16,7 @@ abstract class MainMatriz
 	public function __construct
 	(
 		PDO $conexaoDB,
-		?int $matriz
+		?int $matriz = null
 	)
 	{
 		$this->conexaoDB = $conexaoDB;
