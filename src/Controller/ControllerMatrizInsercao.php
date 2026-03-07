@@ -26,17 +26,17 @@ class ControllerMatrizInsercao implements RequestHandlerInterface
         $conteudo = $extensaoTXT;
         file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
         */
+
         // Pega o caminho absoluto até a pasta FAP
         $basePath = dirname(__DIR__, 2); 
 
-        $caminhoDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'ZIP' . DIRECTORY_SEPARATOR;
-        $destinoDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'RESULTADO' . DIRECTORY_SEPARATOR;
-        $caminhoTemporarioDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'insercao' . DIRECTORY_SEPARATOR;
+        // 1. Definição correta das variáveis vinda do $_ENV
+        $caminhoDoArquivo = $basePath . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ENV['PATH_ZIP_FILE']);
+        $destinoDoArquivo = $basePath . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ENV['PATH_RESULTADO']);
+        $caminhoTemporarioDoArquivo = $basePath . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ENV['PATH_INSERCAO']);
 
-        $contador = $this->processador->getContador();
-        $contador->setCaminhoArquivo($caminhoDoArquivo);
-        $contador->setDestinoArquivo($destinoDoArquivo);
-        $contador->setCaminhoTemporario($caminhoTemporarioDoArquivo);
+        $this->processador->getContador()->
+        configurarCaminhos($caminhoDoArquivo, $destinoDoArquivo, $caminhoTemporarioDoArquivo);
 
         $resultado = $this->processador->processarArquivos();
 

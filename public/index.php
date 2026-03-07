@@ -15,6 +15,17 @@ use Psr\Container\ContainerInterface;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Tente usar o dirname para subir um nível de forma mais "limpa"
+$repositoryPath = dirname(__DIR__); 
+
+try {
+    $dotenv = Dotenv\Dotenv::createImmutable($repositoryPath);
+    $dotenv->load();
+} catch (\Dotenv\Exception\InvalidPathException $e) {
+    // Isso vai te ajudar a debugar se o caminho está certo mesmo
+    die("Erro: O arquivo .env não foi encontrado em: " . $repositoryPath);
+}
+
 $routes = require_once __DIR__ . '/../config/routes.php';
 /** @var \Psr\Container\ContainerInterface $diContainer */
 $diContainer = require_once __DIR__ . '/../config/dependencies.php';

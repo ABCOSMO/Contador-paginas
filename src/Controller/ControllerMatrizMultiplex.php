@@ -26,9 +26,10 @@ class ControllerMatrizMultiplex implements RequestHandlerInterface
         // Pega o caminho absoluto até a pasta FAP
         $basePath = dirname(__DIR__, 2); 
 
-        $caminhoDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'ZIP' . DIRECTORY_SEPARATOR;
-        $destinoDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'RESULTADO' . DIRECTORY_SEPARATOR;
-        $caminhoTemporarioDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'multiplex' . DIRECTORY_SEPARATOR;
+       // 1. Definição correta das variáveis vinda do $_ENV
+        $caminhoDoArquivo = $basePath . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ENV['PATH_ZIP_FILE']);
+        $destinoDoArquivo = $basePath . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ENV['PATH_RESULTADO']);
+        $caminhoTemporarioDoArquivo = $basePath . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ENV['PATH_MULTIPLEX']);
 
 
         $contador = $this->processador->getContador();

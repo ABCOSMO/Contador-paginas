@@ -8,15 +8,19 @@ use PDOException;
         class ConectarBD
         {
            private static $conexao = null;
-           protected $host = '127.0.0.1';
-           protected $senha = '';
-           protected $usuario = 'root';
-           protected $bancoDados = 'fap';
+           protected $host;
+           protected $senha;
+           protected $usuario;
+           protected $bancoDados;
+    
     
             //CONSTRUTOR
             private function __construct()
             {
-
+                $this->host = $_ENV['DB_HOST'];
+                $this->senha = $_ENV['DB_PASSWORD'];
+                $this->usuario = $_ENV['DB_USER'];
+                $this->bancoDados = $_ENV['DB_NAME'];
             }//CONSTRUTOR
     
             //CONEXÃO
