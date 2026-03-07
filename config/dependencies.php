@@ -23,12 +23,18 @@ use Correios\ContadorDePaginas\Contador\{
 
 use \DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
+use \League\Plates\Engine;
 
 $builder = new \DI\ContainerBuilder();
 // 1. Definimos como obter a conexão do banco de dados
 $builder->addDefinitions([
-    PDO::class => function () {
+    PDO::class => function (): PDO {
         return ConectarBD::getConexao();
+    },
+
+    Engine::class => function (): Engine {
+        $templatePath = __DIR__ . '/../views';
+        return new Engine($templatePath, 'php');
     },
 
     // Garanta que as classes que usam strings sejam instanciadas corretamente

@@ -1,4 +1,4 @@
- <?php require_once __DIR__ . '/inicio-html.php'; ?>
+ <?php $this->insert('inicio-html'); ?>
 
  <section class="h-100 d-flex align-items-center">
         <div class="container">
@@ -50,5 +50,7 @@
     </script>
     <script src="./script/scriptInsercao.js" type="module"></script>
 </body>
+
+<?php $this->insert('fim-html'); ?>
 
 </html>

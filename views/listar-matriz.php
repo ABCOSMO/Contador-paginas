@@ -1,4 +1,4 @@
- <?php require_once __DIR__ . '/inicio-html.php'; ?>
+ <?php $this->insert('inicio-html'); ?>
 
  <section class="my-5">
         <div class="text-bg-light p-3 border">
@@ -13,5 +13,7 @@
     </script>
     <script src="./script/listar-matriz.js" type="module"></script>
 </body>
+
+<?php $this->insert('fim-html'); ?>
 
 </html>
