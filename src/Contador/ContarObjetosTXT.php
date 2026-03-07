@@ -10,7 +10,7 @@ class ContarObjetosTXT
     private $extensaoDoArquivo;
     use ManipuladorDeDiretoriosTrait;
 
-    public function __construct(string $extensaoDoArquivo)
+    public function __construct(string $extensaoDoArquivo = '.txt')
     {
         $this->extensaoDoArquivo = $extensaoDoArquivo;
     }

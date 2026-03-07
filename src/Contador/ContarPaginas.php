@@ -17,18 +17,16 @@ abstract class ContarPaginas
     protected $conexaoDB;
 
 
-    public function __construct
-    (
-        string $caminhoArquivo, 
-        string $destinoArquivo, 
-        string $caminhoTemporario,
-        PDO $conexaoDB
-    )
-    {
+   public function __construct(
+        PDO $conexaoDB,
+        string $caminhoArquivo = '', 
+        string $destinoArquivo = '', 
+        string $caminhoTemporario = ''
+    ) {
+        $this->conexaoDB = $conexaoDB;
         $this->caminhoArquivo = $caminhoArquivo;
         $this->destinoArquivo = $destinoArquivo;
         $this->caminhoTemporario = $caminhoTemporario;
-        $this->conexaoDB = $conexaoDB;
     }
 
     public function getCaminhoArquivo (): string
@@ -46,17 +44,42 @@ abstract class ContarPaginas
         return $this->caminhoTemporario;
     }
 
+    public function setCaminhoArquivo(string $caminho): void
+    {
+        $this->caminhoArquivo = $caminho;
+    }
+
+    public function setDestinoArquivo(string $destino): void
+    {
+        $this->destinoArquivo = $destino;
+    }
+
+    public function setCaminhoTemporario(string $temp): void
+    {
+        $this->caminhoTemporario = $temp;
+    }
+
+    /**
+     * Atalho para configurar tudo de uma vez no Controller
+     */
+    public function configurarCaminhos(string $origem, string $destino, string $temp): void
+    {
+        $this->caminhoArquivo = $origem;
+        $this->destinoArquivo = $destino;
+        $this->caminhoTemporario = $temp;
+    }
+
     public function setCaminhoENomeDoArquivo (string $caminhoENomeDoArquivo): void
     {
-        $this->CaminhoENomeDoArquivo = $caminhoENomeDoArquivo;
+        $this->caminhoENomeDoArquivo = $caminhoENomeDoArquivo;
     }
 
     public function verificarEExtrairArquivo(): bool
     { 
         
-        $this->extractZipFile($this->CaminhoENomeDoArquivo, $this->getCaminhoTemporario());
+        $this->extractZipFile($this->caminhoENomeDoArquivo, $this->getCaminhoTemporario());
 
-        $this->excluirArquivo($this->CaminhoENomeDoArquivo);
+        $this->excluirArquivo($this->caminhoENomeDoArquivo);
         return true;
     }
 

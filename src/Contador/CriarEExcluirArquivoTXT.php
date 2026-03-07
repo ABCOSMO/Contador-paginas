@@ -6,7 +6,7 @@ class CriarEExcluirArquivoTXT
 {
     private $destinoDoArquivo;
 
-    public function __construct (string $destinoDoArquivo) 
+    public function __construct (string $destinoDoArquivo = '') 
     {
         $this->destinoDoArquivo = $destinoDoArquivo;
     }

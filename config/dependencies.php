@@ -4,7 +4,24 @@ declare(strict_types=1);
 
 use Correios\ContadorDePaginas\Cadastrar\MatrizRepository;
 use Correios\ContadorDePaginas\Conectar\ConectarBD;
-use Correios\ContadorDePaginas\Controller\CadastrarMatriz;
+use Correios\ContadorDePaginas\Controller\{
+    CadastrarMatriz,
+    ListarMatriz,
+    ExcluirMatriz
+};
+use Correios\ContadorDePaginas\Contador\{
+    ContarPaginasMultiplex,
+    ContarPaginasInsercao,
+    ValidaMultiplexEInsercaoDB,
+    ProcessadorDaArquivosMultiplex,
+    ProcessadorDaArquivosInsercao,
+    ContarObjetosTXT,
+    ContarObjetosXML,
+    CriarEExcluirArquivoTXT,
+    CriarArquivoExcel
+};
+
+use \DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 
 $builder = new \DI\ContainerBuilder();
@@ -14,15 +31,24 @@ $builder->addDefinitions([
         return ConectarBD::getConexao();
     },
 
-// 2. Configuramos o MatrizRepository
-    // Se o construtor dele pedir o PDO, o PHP-DI injeta automaticamente
-    MatrizRepository::class => \DI\autowire(),
+    // Garanta que as classes que usam strings sejam instanciadas corretamente
+    CriarEExcluirArquivoTXT::class => \DI\autowire(),
+    CriarArquivoExcel::class => \DI\autowire(),
+    ContarObjetosTXT::class => \DI\autowire()->constructorParameter('extensaoDoArquivo', '.txt'),
+    ContarObjetosXML::class => \DI\autowire()->constructorParameter('extensaoDoArquivo', '.xml'),
 
-    // 3. Configuramos o Controller
-    // O PHP-DI verá que o CadastrarMatriz, ListarMatriz, ExcluirMatriz pede o MatrizRepository e fará a mágica
+    MatrizRepository::class => \DI\autowire(),
     CadastrarMatriz::class => \DI\autowire(),
     ListarMatriz::class => \DI\autowire(),
     ExcluirMatriz::class => \DI\autowire(),
+    
+    ValidaMultiplexEInsercaoDB::class => \DI\autowire(),
+    ContarPaginasMultiplex::class => \DI\autowire(),
+    ContarPaginasInsercao::class => \DI\autowire(),
+    ContarPaginasMultiplex::class => \DI\autowire(),
+    ProcessadorDaArquivosInsercao::class => \DI\autowire(),
+    ProcessadorDaArquivosMultiplex::class => \DI\autowire(),
+
 ]);
 
 /** @var \Psr\Container\ContainerInterface $container */

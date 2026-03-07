@@ -18,18 +18,16 @@ class ContarPaginasInsercao extends ContarPaginas implements VerificadorDeMatriz
     private ContarObjetosXML $contarXML;    
     use ManipuladorDeArquivosTrait;
 
-    public function __construct 
-    (
-        string $caminhoArquivo, 
-        string $destinoArquivo, 
-        string $caminhoTemporario,
+    public function __construct(
         PDO $conexaoDB,
         ValidaMultiplexEInsercaoDB $mutiplexNoBD,
         ContarObjetosTXT $contarTXT,
-        ContarObjetosXML $contarXML,
-    )
-    {
-        parent::__construct($caminhoArquivo, $destinoArquivo, $caminhoTemporario, $conexaoDB);
+        ContarObjetosXML $contarXML,        
+        string $caminhoArquivo = '', 
+        string $destinoArquivo = '', 
+        string $caminhoTemporario = ''
+    ) {
+        parent::__construct($conexaoDB, $caminhoArquivo, $destinoArquivo, $caminhoTemporario);        
         $this->mutiplexNoBD = $mutiplexNoBD;
         $this->contarTXT = $contarTXT;
         $this->contarXML = $contarXML;

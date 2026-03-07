@@ -24,6 +24,13 @@ class ProcessadorDaArquivosInsercao
         $this->conexaoDB = $conexaoDB;
     }
 
+
+    // Adicione este método dentro da classe ProcessadorDaArquivosInsercao
+    public function getContador(): ContarPaginasInsercao
+    {
+        return $this->contarPaginasInsercao;
+    }
+    
     public function processarArquivos(): array
     {
         $arquivos = scandir($this->contarPaginasInsercao->getCaminhoArquivo());

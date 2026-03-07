@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace Correios\ContadorDePaginas\Controller;
 
-use Correios\ContadorDePaginas\Contador\{
-    ContarPaginasInsercao,
-    ValidaMultiplexEInsercaoDB,
-    ProcessadorDaArquivosInsercao,
-    CriarEExcluirArquivoTXT,
-    CriarArquivoExcel,
-    ContarObjetosTXT,
-    ContarObjetosXML
-};
-
-use Correios\ContadorDePaginas\Conectar\ConectarBD;
+use Correios\ContadorDePaginas\Contador\ProcessadorDaArquivosInsercao;
 
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,15 +13,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ControllerMatrizInsercao implements RequestHandlerInterface
 {
+    private ProcessadorDaArquivosInsercao $processador;
+
+    public function __construct(ProcessadorDaArquivosInsercao $processador)
+    {
+        $this->processador = $processador;
+    }
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $extensaoTXT = "txt";
-        $extensaoXML = "xml";
-        $conexao = ConectarBD::getConexao();
-        $validador = new ValidaMultiplexEInsercaoDB($conexao);
-        $extensaoArquivoTXT = new ContarObjetosTXT($extensaoTXT);
-        $extensaoArquivoXML = new ContarObjetosXML($extensaoXML);
-
         /*
         $conteudo = $extensaoTXT;
         file_put_contents(__DIR__ . "/meu_arquivo.txt", $conteudo);
@@ -43,59 +33,29 @@ class ControllerMatrizInsercao implements RequestHandlerInterface
         $destinoDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'RESULTADO' . DIRECTORY_SEPARATOR;
         $caminhoTemporarioDoArquivo = $basePath . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'insercao' . DIRECTORY_SEPARATOR;
 
-        $arquivoInsercao = new ContarPaginasInsercao(
-            $caminhoDoArquivo,
-            $destinoDoArquivo,
-            $caminhoTemporarioDoArquivo,
-            $conexao,
-            $validador,
-            $extensaoArquivoTXT,
-            $extensaoArquivoXML
-        );
+        $contador = $this->processador->getContador();
+        $contador->setCaminhoArquivo($caminhoDoArquivo);
+        $contador->setDestinoArquivo($destinoDoArquivo);
+        $contador->setCaminhoTemporario($caminhoTemporarioDoArquivo);
 
-        $processador = new ProcessadorDaArquivosInsercao(
-            $arquivoInsercao,
-            new CriarEExcluirArquivoTXT($destinoDoArquivo),
-            new CriarArquivoExcel($destinoDoArquivo),
-            $conexao
-        );
-
-        $resultado = $processador->processarArquivos();
+        $resultado = $this->processador->processarArquivos();
 
         // Adicione esta linha para ver o conteúdo do array retornado
         //file_put_contents(__DIR__ . '/debug.log', print_r($resultado, true));
 
-        // Verifica se o resultado é um array
-        if (is_array($resultado)) {
-            // Retorna a resposta no formato que o JavaScript espera
-            if (isset($resultado['status']) && $resultado['status'] === 'sucesso') {
-                $mensagem = [
-                    'success' => true,
-                    'message' => $resultado['mensagem']
-                ];
-
-                return new Response(200, [
-                    'Content-Type' => 'application/json'
-                    ], body: json_encode($mensagem));
-
-            } else {
-                $mensagem = [
-                    'success' => false,
-                    'message' => $resultado['mensagem']
-                ];
-                return new Response(500, [
-                    'Content-Type' => 'application/json'
-                    ], body: json_encode($mensagem));
-            }
-        } else {
-            $mensagem = [
-                'success' => false,
-                'message' => 'Erro inesperado na aplicação.'
-            ];
-            return new Response(500, [
-                'Content-Type' => 'application/json'
-                ], body: json_encode($mensagem));
+        // 4. Tratamento da Resposta
+        if (is_array($resultado) && isset($resultado['status']) && $resultado['status'] === 'sucesso') {
+            return new Response(200, ['Content-Type' => 'application/json'], json_encode([
+                'success' => true,
+                'message' => $resultado['mensagem']
+            ]));
         }
-        exit();
+
+        // Resposta de erro genérica
+        $msgErro = $resultado['mensagem'] ?? 'Erro inesperado na aplicação.';
+        return new Response(500, ['Content-Type' => 'application/json'], json_encode([
+            'success' => false,
+            'message' => $msgErro
+        ]));
     }
 }

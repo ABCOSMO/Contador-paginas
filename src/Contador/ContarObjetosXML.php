@@ -10,7 +10,7 @@ class ContarObjetosXML
     private $extensaoDoArquivo;
     use ManipuladorDeDiretoriosTrait;
 
-    public function __construct(string $extensaoDoArquivo)
+    public function __construct(string $extensaoDoArquivo = '.xml')
     {
         $this->extensaoDoArquivo = $extensaoDoArquivo;
     }
