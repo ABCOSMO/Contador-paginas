@@ -8,14 +8,11 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Correios\ContadorDePaginas\Helper\HtmlRendererTrait;
 use League\Plates\Engine;
 
 
 class ControllerContadorInsercao implements RequestHandlerInterface
 {
-    use HtmlRendererTrait;
-
     public function __construct(private Engine $templates)
     {
         $this->templates = $templates;
