@@ -24,6 +24,11 @@ class ProcessadorDaArquivosMultiplex
         $this->conexaoDB = $conexaoDB;
     }
 
+    public function getContador(): ContarPaginasMultiplex
+    {
+        return $this->contarPaginasMultiplex;
+    }
+
     public function processarArquivos(): array
     {
         $arquivos = scandir($this->contarPaginasMultiplex->getCaminhoArquivo());
