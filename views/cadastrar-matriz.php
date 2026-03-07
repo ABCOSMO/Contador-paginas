@@ -1,4 +1,4 @@
-    <?php $this->insert('inicio-html'); ?>
+    <?php $this->layout('layout'); ?>
     
     <section class="my-5">
         <div class="text-bg-light p-3 border">
@@ -105,8 +105,3 @@
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
     </script>
     <script src="./script/cadastrar-matriz.js" type="module"></script>
-</body>
-
-<?php $this->insert('fim-html'); ?>
-
-</html>

@@ -49,3 +49,11 @@
             </div>
         </div>
     </nav>
+
+    <?= $this->section('content'); ?>
+</body>
+<footer>
+<hr>
+    <p class="text-center">&copy; 2026 Correios - Todos os direitos reservados.</p>
+</footer>
+</html>

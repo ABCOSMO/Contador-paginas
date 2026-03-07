@@ -1,4 +1,4 @@
-<?php $this->insert('inicio-html'); ?>
+<?php $this->layout('layout'); ?>
 
    <section class="h-100 d-flex align-items-center">
         <div class="container">
@@ -23,8 +23,3 @@
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
     </script>
     <script src="/script/mainPage.js"></script>
-</body>
-
-<?php $this->insert('fim-html'); ?>
-
-</html>
